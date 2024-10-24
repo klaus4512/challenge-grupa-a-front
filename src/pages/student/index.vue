@@ -60,6 +60,7 @@
 
   let mask = new Mask({mask: '###.###.###-##'})
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const search = ref('')
   const students = ref([])
@@ -78,7 +79,7 @@
         search: search.value
       }
     }
-    axios.get('http://localhost:8000/api/students', {
+    axios.get(`${API_BASE_URL}/students`, {
       params: params
     }).then(response => {
         students.value = response.data.students.map(student => {

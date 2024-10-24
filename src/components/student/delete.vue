@@ -8,6 +8,8 @@
   import Swal from 'sweetalert2'
   import axios from "axios";
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const props = defineProps<{
     student: Object
   }>()
@@ -29,7 +31,7 @@
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`http://localhost:8000/api/students/${student.ra}`)
+        axios.delete(`${API_BASE_URL}/students/${student.ra}`)
           .then(response => {
             if (response.status === 200) {
               emit('studentDeleted')

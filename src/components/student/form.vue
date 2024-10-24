@@ -49,6 +49,8 @@ import {ref, watch} from 'vue'
   import Swal from 'sweetalert2'
   import { vMaska } from "maska/vue"
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const props = defineProps<{
     student: {
       type: Object
@@ -122,7 +124,7 @@ import {ref, watch} from 'vue'
   }
 
   const create = () => {
-    axios.post('http://localhost:8000/api/students', student.value)
+    axios.post(`${API_BASE_URL}/students`, student.value)
       .then(response => {
         if (response.status === 201) {
           Swal.fire({
@@ -161,7 +163,7 @@ import {ref, watch} from 'vue'
   }
 
   const update = () => {
-    axios.put(`http://localhost:8000/api/students/${student.value.ra}`, student.value)
+    axios.put(`${API_BASE_URL}/students/${student.value.ra}`, student.value)
       .then(response => {
         if (response.status === 200) {
           Swal.fire({
