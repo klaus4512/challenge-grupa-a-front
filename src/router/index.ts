@@ -7,6 +7,14 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { routes } from 'vue-router/auto-routes'
+import StudentEdit from '@/pages/student/edit.vue'
+
+routes.push({
+  path: '/student/:ra/edit',
+  name: 'student-edit',
+  component: StudentEdit,
+  props: true
+})
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

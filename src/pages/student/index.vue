@@ -32,9 +32,11 @@
           class="elevation-1"
         >
           <template v-slot:item.actions="{ item }">
-            <v-btn icon @click="editStudent(item)" variant="plain">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
+            <router-link :to="{ name: 'student-edit', params: { ra: item.ra } }">
+              <v-btn icon variant="plain">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </router-link>
             <delete :student="item" @studentDeleted="loadStudents"/>
           </template>
         </v-data-table>
@@ -75,10 +77,6 @@
       .catch(error => {
         console.error(error)
       })
-  }
-  const deleteStudent = (student) => {
-    // Logic to delete the student
-    console.log('Delete student', student)
   }
 
   onMounted(() => {

@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h1>Cadastrar Aluno</h1>
+        <h1>Cadastro de aluno</h1>
       </v-col>
       <v-col cols="12">
         <student-form/>
