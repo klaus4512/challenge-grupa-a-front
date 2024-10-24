@@ -4,23 +4,25 @@
       <v-col cols="12">
         <h1>Consulta de alunos</h1>
       </v-col>
-      <v-col cols="12" class="d-flex justify-space-between mb-4">
-        <v-text-field
-          v-model="search"
-          label="Consulta de Alunos"
-          class="mr-4"
-          dense
-          height="36px"
-        ></v-text-field>
-        <v-btn
-          class="mr-4"
-          color="primary"
-          @click="loadStudents"
-          dense
-          height="36px"
-        >
-          Buscar
-        </v-btn>
+      <v-col cols="12" class="d-flex justify-space-between align-center">
+        <v-form @submit.prevent="loadStudents" class="d-flex align-center">
+          <v-text-field
+            v-model="search"
+            label="Consulta de Alunos"
+            class="mr-2"
+            dense
+            height="36px"
+            width="30vw"
+          ></v-text-field>
+          <v-btn
+            color="primary"
+            type="submit"
+            dense
+            height="36px"
+          >
+            Buscar
+          </v-btn>
+        </v-form>
         <router-link to="/student/create">
           <v-btn color="primary">Cadastrar Aluno</v-btn>
         </router-link>
@@ -30,12 +32,18 @@
           :headers="headers"
           :items="students"
           class="elevation-1"
+          :footer-props="{
+            itemsPerPageText: 'Itens por página:',
+            itemsPerPageAllText: 'Todos',
+          }"
         >
           <template v-slot:item.actions="{ item }">
-            <v-btn icon @click="editStudent(item)" variant="plain">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-            <delete :student="item"/>
+            <router-link :to="{ name: 'student-edit', params: { ra: item.ra } }">
+              <v-btn icon variant="plain">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </router-link>
+            <delete :student="item" @studentDeleted="loadStudents"/>
           </template>
         </v-data-table>
       </v-col>
@@ -48,6 +56,11 @@
   import axios from "axios";
   import '@/components/student/delete.vue'
   import Delete from "@/components/student/delete.vue";
+  import {Mask} from "maska";
+
+  let mask = new Mask({mask: '###.###.###-##'})
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const search = ref('')
   const students = ref([])
@@ -59,39 +72,27 @@
     { title: 'Ações', value: 'actions', sortable: false },
   ]
 
-  function loadStudents() {
+  const loadStudents = () => {
     let params = {}
     if(search.value !== '') {
       params = {
         search: search.value
       }
     }
-    axios.get('http://localhost:8000/api/students', {
+    axios.get(`${API_BASE_URL}/students`, {
       params: params
     }).then(response => {
-        console.log(response.data.students)
-        students.value = response.data.students
-      })
-      .catch(error => {
+        students.value = response.data.students.map(student => {
+          let mask = new Mask({mask: '###.###.###-##'})
+          student.cpf = mask.masked(student.cpf)
+          return student
+        })
+      }).catch(error => {
         console.error(error)
       })
-  }
-  const deleteStudent = (student) => {
-    // Logic to delete the student
-    console.log('Delete student', student)
   }
 
   onMounted(() => {
     loadStudents()
   })
-
 </script>
-
-<style scoped>
-  .mb-4 {
-    margin-bottom: 1rem;
-  }
-  .mr-4 {
-    margin-right: 1rem;
-  }
-</style>
