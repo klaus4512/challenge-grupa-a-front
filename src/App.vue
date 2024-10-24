@@ -2,11 +2,13 @@
   <v-layout class="rounded rounded-md">
     <v-app-bar>
       <v-sheet class="d-flex">
-        <v-img
-          :width="150"
-          aspect-ratio="16/9"
-          src="@/assets/1grupoa.png"
-        ></v-img>
+        <router-link to="/">
+          <v-img
+            :width="150"
+            aspect-ratio="16/9"
+            src="@/assets/1grupoa.png"
+          ></v-img>
+        </router-link>
       </v-sheet>
     </v-app-bar>
     <v-navigation-drawer absolute permanent>
@@ -42,9 +44,18 @@
 
 <script lang="ts" setup>
 //
+import { onMounted } from 'vue'
+
 const items = [
   { icon: 'mdi-account', text: 'Alunos', link: '/student' },
 ]
+
+
+onMounted(() => {
+  document.title = 'Desafio Grupo A'
+})
+
+
 </script>
 
 
