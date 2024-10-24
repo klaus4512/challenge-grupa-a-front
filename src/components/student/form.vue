@@ -4,18 +4,22 @@
       v-model="student.name"
       label="Nome"
       :rules="[rules.required]"
+      :error-messages="serverValidationErrors.name"
       required
     ></v-text-field>
     <v-text-field
       v-model="student.email"
       label="Email"
       :rules="[rules.required, rules.email]"
+      :error-messages="serverValidationErrors.email"
       required
     ></v-text-field>
     <v-text-field
       v-model="student.ra"
       label="Registro Acadêmico"
-      :rules="[rules.required]"
+      :rules="[rules.required, rules.numeric]"
+      v-maska="'###############'"
+      :error-messages="serverValidationErrors.ra"
       :disabled="editMode"
       required
     ></v-text-field>
@@ -84,6 +88,7 @@ import {ref, watch} from 'vue'
 
   const rules = {
     required: (value: string) => !!value || 'Campo obrigatório',
+    numeric: (value: string) => /^\d+$/.test(value) || 'Apenas números são permitidos',
     cpf: (value: string) => /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(value) || 'CPF inválido',
     email: (value: string) => /.+@.+\..+/.test(value) || 'Email inválido'
   }
@@ -135,6 +140,7 @@ import {ref, watch} from 'vue'
       })
       .catch(error => {
         if (error.response.status === 422) {
+          console.log(error.response.data.errors.ra)
           serverValidationErrors.value.cpf = error.response.data.errors?.cpf
           serverValidationErrors.value.name = error.response.data.errors?.name
           serverValidationErrors.value.ra = error.response.data.errors?.ra
