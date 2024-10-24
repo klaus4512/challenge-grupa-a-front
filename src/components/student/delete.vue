@@ -7,16 +7,17 @@
 <script setup lang="ts">
   import Swal from 'sweetalert2'
   import axios from "axios";
+  import {Student} from "@/types/student";
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  const props = defineProps<{
-    student: Object
+  defineProps<{
+    student: Student
   }>()
 
   const emit = defineEmits(['studentDeleted'])
 
-  const deleteStudent = (student) => {
+  const deleteStudent = (student: Student) => {
     Swal.fire({
       title: 'Deseja realmente excluir o aluno?',
       showCancelButton: true,

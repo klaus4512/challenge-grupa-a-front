@@ -44,24 +44,15 @@
 </template>
 
 <script setup lang="ts">
-import {ref, watch} from 'vue'
+  import {ref, watch} from 'vue'
   import axios from 'axios'
   import Swal from 'sweetalert2'
   import { vMaska } from "maska/vue"
+  import { FormProps } from "@/types/FormProps";
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  const props = defineProps<{
-    student: {
-      type: Object
-      nullable: true
-    }
-    editMode: {
-      type: Boolean
-      default: false
-      required: false
-    }
-  }>()
+  const props = defineProps<FormProps>()
 
   const valid = ref(false)
 
@@ -76,8 +67,8 @@ import {ref, watch} from 'vue'
     student.value = {
       name: props.student?.name || '',
       ra: props.student?.ra || '',
-      cpf: props.student?.cpf.number || '',
-      email: props.student?.email.address || ''
+      cpf: props.student?.cpf?.number || '',
+      email: props.student?.email?.address || ''
     }
   })
 
@@ -97,10 +88,10 @@ import {ref, watch} from 'vue'
 
   const resetForm = () => {
     student.value = {
-      name: undefined,
-      ra: undefined,
-      cpf: undefined,
-      email: undefined
+      name: '',
+      ra: '',
+      cpf: '',
+      email: ''
     }
   }
 
