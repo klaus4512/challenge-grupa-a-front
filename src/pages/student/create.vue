@@ -5,7 +5,7 @@
         <h1>Cadastro de aluno</h1>
       </v-col>
       <v-col cols="12">
-        <student-form/>
+        <student-form :student="null"/>
       </v-col>
     </v-row>
   </v-container>

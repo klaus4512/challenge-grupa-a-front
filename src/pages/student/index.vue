@@ -52,18 +52,19 @@
 </template>
 
 <script setup lang="ts">
-  import {ref, onBeforeMount, onMounted} from 'vue'
+  import {ref, onMounted} from 'vue'
   import axios from "axios";
   import '@/components/student/delete.vue'
   import Delete from "@/components/student/delete.vue";
   import {Mask} from "maska";
+  import {Student} from "@/types/student";
 
   let mask = new Mask({mask: '###.###.###-##'})
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const search = ref('')
-  const students = ref([])
+  const students = ref<Student[]>([]);
 
   const headers = [
     { title: 'Registro acadêmico', value: 'ra' },
@@ -82,8 +83,7 @@
     axios.get(`${API_BASE_URL}/students`, {
       params: params
     }).then(response => {
-        students.value = response.data.students.map(student => {
-          let mask = new Mask({mask: '###.###.###-##'})
+        students.value = response.data.students.map((student: Student) => {
           student.cpf = mask.masked(student.cpf)
           return student
         })
