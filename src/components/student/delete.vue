@@ -6,23 +6,62 @@
 
 <script setup lang="ts">
   import Swal from 'sweetalert2'
+  import axios from "axios";
 
   const props = defineProps<{
     student: Object
   }>()
 
+  const emit = defineEmits(['studentDeleted'])
+
   const deleteStudent = (student) => {
     Swal.fire({
       title: 'Deseja realmente excluir o aluno?',
       showCancelButton: true,
+      icon: "question",
       confirmButtonText: 'Confirmar',
       cancelButtonText: 'Cancelar',
+      customClass: {
+        confirmButton: 'text-white',
+        cancelButton: 'text-white'
+      },
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log('Delete student', student)
+        axios.delete(`http://localhost:8000/api/students/${student.ra}`)
+          .then(response => {
+            if (response.status === 200) {
+              emit('studentDeleted')
+              Swal.fire({
+                title: 'Sucesso!',
+                text: 'Aluno excluído com sucesso!',
+                icon: 'success',
+                customClass: {
+                  confirmButton: 'text-white',
+                },
+                confirmButtonText: 'OK'
+              })
+            }
+          })
+          .catch(error => {
+            Swal.fire({
+              title: 'Erro!',
+              text: 'Ocorreu um erro ao excluir o aluno!',
+              customClass: {
+                confirmButton: 'text-white',
+              },
+              icon: 'error',
+              confirmButtonText: 'OK'
+            })
+          })
       }
     })
   }
 </script>
+
+<style scoped>
+  .text-white{
+    color: white !important;
+  }
+</style>

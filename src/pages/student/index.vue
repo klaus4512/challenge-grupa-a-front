@@ -35,7 +35,7 @@
             <v-btn icon @click="editStudent(item)" variant="plain">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
-            <delete :student="item"/>
+            <delete :student="item" @studentDeleted="loadStudents"/>
           </template>
         </v-data-table>
       </v-col>
