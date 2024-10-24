@@ -97,10 +97,10 @@ import {ref, watch} from 'vue'
 
   const resetForm = () => {
     student.value = {
-      name: '',
-      ra: '',
-      cpf: '',
-      email: ''
+      name: undefined,
+      ra: undefined,
+      cpf: undefined,
+      email: undefined
     }
   }
 
