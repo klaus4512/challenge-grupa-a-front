@@ -18,6 +18,11 @@ npm install
 cp .env.example .env
 ```
 
+- Dentro do arquivo .env apontar para o servidor das APIS
+```console
+VUE_APP_API_URL="Servidor"
+```
+
 - Para iniciar o projeto, rodar o seguinte comando
 ```console
 npm run dev
