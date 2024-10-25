@@ -55,6 +55,7 @@
   const props = defineProps<FormProps>()
 
   const valid = ref(false)
+  const form = ref(null)
 
   const student = ref({
     name: props.student?.name || '',
@@ -93,6 +94,7 @@
       cpf: '',
       email: ''
     }
+    form.value.reset()
   }
 
   const resetErrors = () => {
